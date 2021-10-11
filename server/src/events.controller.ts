@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -52,7 +53,7 @@ export class EventsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id) {
+  async findOne(@Param('id', ParseIntPipe) id) {
     return await this.repository.findOne(id);
   }
 
@@ -65,7 +66,7 @@ export class EventsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id, @Body() input: UpdateEventDto) {
+  async update(@Param('id', ParseIntPipe) id, @Body() input: UpdateEventDto) {
     const event = await this.repository.findOne(id);
     return await this.repository.save({
       ...event,
@@ -76,7 +77,7 @@ export class EventsController {
 
   @Delete(':id')
   @HttpCode(204)
-  async remove(@Param('id') id) {
+  async remove(@Param('id', ParseIntPipe) id) {
     const event = await this.repository.findOne(id);
     await this.repository.remove(event);
   }
