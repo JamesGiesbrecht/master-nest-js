@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ormConfig from './config/orm.config';
 import ormConfigProd from './config/orm.config.prod';
-import { Event } from './events/event.entity';
 import { EventsModule } from './events/events.module';
 
 @Module({

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -17,6 +18,8 @@ import { UpdateEventDto } from './update-event.dto';
 
 @Controller('/events')
 export class EventsController {
+  private readonly logger = new Logger(EventsController.name);
+
   constructor(
     @InjectRepository(Event)
     private readonly repository: Repository<Event>,
@@ -26,7 +29,10 @@ export class EventsController {
 
   @Get()
   async findAll() {
-    return await this.repository.find();
+    this.logger.log('Finding all events');
+    const events = await this.repository.find();
+    this.logger.debug(`Found ${events.length} events`);
+    return events;
   }
 
   @Get('/practice')
