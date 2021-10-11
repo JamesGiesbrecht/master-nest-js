@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Logger,
+  NotFoundException,
   Param,
   ParseIntPipe,
   Patch,
@@ -60,7 +61,13 @@ export class EventsController {
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id) {
-    return await this.repository.findOne(id);
+    const event = await this.repository.findOne(id);
+
+    if (!event) {
+      throw new NotFoundException();
+    }
+
+    return event;
   }
 
   @Post()
@@ -75,6 +82,11 @@ export class EventsController {
   // UpdateEventDto inherits from CreateEventDto so the same validations apply
   async update(@Param('id', ParseIntPipe) id, @Body() input: UpdateEventDto) {
     const event = await this.repository.findOne(id);
+
+    if (!event) {
+      throw new NotFoundException();
+    }
+
     return await this.repository.save({
       ...event,
       ...input,
@@ -86,6 +98,11 @@ export class EventsController {
   @HttpCode(204)
   async remove(@Param('id', ParseIntPipe) id) {
     const event = await this.repository.findOne(id);
+
+    if (!event) {
+      throw new NotFoundException();
+    }
+
     await this.repository.remove(event);
   }
 }
