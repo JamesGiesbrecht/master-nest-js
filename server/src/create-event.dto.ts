@@ -8,6 +8,8 @@ export class CreateEventDto {
   description: string;
   @IsDateString()
   when: string;
-  @Length(5, 255)
+  // Different validations depending on what group is assigned to the function
+  @Length(5, 255, { groups: ['create'] })
+  @Length(10, 200, { groups: ['update'] })
   address: string;
 }
