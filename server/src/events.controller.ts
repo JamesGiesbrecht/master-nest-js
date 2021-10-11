@@ -58,6 +58,8 @@ export class EventsController {
   }
 
   @Post()
+  // The validation pipe was added globally in main.ts so we dont need to add it here
+  // async create(@Body(ValidationPipe) input: CreateEventDto) {
   async create(@Body() input: CreateEventDto) {
     return await this.repository.save({
       ...input,
@@ -66,6 +68,7 @@ export class EventsController {
   }
 
   @Patch(':id')
+  // UpdateEventDto inherits from CreateEventDto so the same validations apply
   async update(@Param('id', ParseIntPipe) id, @Body() input: UpdateEventDto) {
     const event = await this.repository.findOne(id);
     return await this.repository.save({
