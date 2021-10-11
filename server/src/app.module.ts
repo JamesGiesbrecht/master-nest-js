@@ -18,6 +18,8 @@ import { EventsController } from './events.controller';
       // For local dev only
       synchronize: true,
     }),
+    // Injecting a repository for the Event class
+    TypeOrmModule.forFeature([Event]),
   ],
   controllers: [AppController, EventsController],
   providers: [AppService],
