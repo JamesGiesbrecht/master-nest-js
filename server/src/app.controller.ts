@@ -1,9 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 
+// @Controller('/myPath')
+// @Controller({ path: '/myPath' })
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {
@@ -12,6 +14,6 @@ export class AppController {
 
   @Get('/bye')
   getBye() {
-    return "Bye!";
+    return 'Bye!';
   }
 }
