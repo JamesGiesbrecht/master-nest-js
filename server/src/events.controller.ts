@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { CreateEventDto } from './create-event.dto';
 
 @Controller('/events')
 export class EventsController {
@@ -23,7 +24,7 @@ export class EventsController {
     return { id: 1, name: 'My Birthday' };
   }
   @Post()
-  create(@Body() input) {
+  create(@Body() input: CreateEventDto) {
     // return created resource
     return input;
   }
