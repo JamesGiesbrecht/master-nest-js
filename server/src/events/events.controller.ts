@@ -11,6 +11,8 @@ import {
   Patch,
   Post,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, MoreThan, Repository } from 'typeorm';
@@ -36,12 +38,18 @@ export class EventsController {
   private events: Event[] = [];
 
   @Get()
+  // Needed to set the default values for the query params
+  @UsePipes(new ValidationPipe({ transform: true }))
   async findAll(@Query() filter: ListEvents) {
-    this.logger.log('Finding all events');
-    const events = await this.eventsService.getEventsWithAttendeeCountFiltered(
-      filter,
-    );
-    this.logger.debug(`Found ${events.length} events`);
+    const events =
+      await this.eventsService.getEventsWithAtttendeeCountFilteredPagniated(
+        filter,
+        {
+          total: true,
+          currentPage: filter.page,
+          limit: 2,
+        },
+      );
     return events;
   }
 

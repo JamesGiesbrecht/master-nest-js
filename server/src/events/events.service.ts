@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { paginate, PaginateOptions } from 'src/pagination/paginator';
 import { Repository } from 'typeorm';
 import { AttendeeAnswerEnum, Event } from './event.entity';
 import { ListEvents, WhenEventFilter } from './list.events';
@@ -54,7 +55,7 @@ export class EventsService {
     let query = this.getEventsWithAttendeeCountQuery();
 
     if (!filter) {
-      return await query.getMany();
+      return await query;
     }
 
     if (filter.when) {
@@ -74,7 +75,17 @@ export class EventsService {
         );
       }
     }
-    return await query.getMany();
+    return await query;
+  }
+
+  public async getEventsWithAtttendeeCountFilteredPagniated(
+    filter: ListEvents,
+    paginateOptions: PaginateOptions,
+  ) {
+    return await paginate(
+      await this.getEventsWithAttendeeCountFiltered(filter),
+      paginateOptions,
+    );
   }
 
   public async getEvent(id: number): Promise<Event | undefined> {
