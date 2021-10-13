@@ -14,7 +14,11 @@ export class Event {
   when: Date;
   @Column()
   address: string;
-  // Use eager with caution
-  @OneToMany(() => Attendee, (attendee) => attendee.event, { eager: true })
+  @OneToMany(() => Attendee, (attendee) => attendee.event, {
+    // Use eager with caution
+    eager: true,
+    // TypeORM will perform the necessary updates on all related entities
+    cascade: true,
+  })
   attendees: Attendee[];
 }

@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, MoreThan, Repository } from 'typeorm';
+import { Attendee } from './attendee.entity';
 import { CreateEventDto } from './create-event.dto';
 import { Event } from './event.entity';
 import { UpdateEventDto } from './update-event.dto';
@@ -24,6 +25,8 @@ export class EventsController {
   constructor(
     @InjectRepository(Event)
     private readonly repository: Repository<Event>,
+    @InjectRepository(Attendee)
+    private readonly attendeeRepository: Repository<Attendee>,
   ) {}
 
   private events: Event[] = [];
@@ -62,9 +65,21 @@ export class EventsController {
   @Get('/practice2')
   async practice2() {
     // Manually fetch relations
-    return await this.repository.findOne(1, { relations: ['attendees'] });
+    // return await this.repository.findOne(1, { relations: ['attendees'] });
     // Dont load the eager relations
     // return await this.repository.findOne(1, { loadEagerRelations: false });
+
+    const event = await this.repository.findOne(1);
+    // If we know the id of the event we dont need to fetch it
+    // const event = new Event();
+    // event.id = 1;
+    const attendee = new Attendee();
+    attendee.name = 'Cascading';
+    // attendee.event = event;
+    event.attendees.push(attendee);
+    // await this.attendeeRepository.save(attendee);
+    await this.repository.save(event);
+    return event;
   }
 
   @Get(':id')
