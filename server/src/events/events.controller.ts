@@ -59,6 +59,14 @@ export class EventsController {
     });
   }
 
+  @Get('/practice2')
+  async practice2() {
+    // Manually fetch relations
+    return await this.repository.findOne(1, { relations: ['attendees'] });
+    // Dont load the eager relations
+    // return await this.repository.findOne(1, { loadEagerRelations: false });
+  }
+
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id) {
     const event = await this.repository.findOne(id);

@@ -14,6 +14,7 @@ export class Event {
   when: Date;
   @Column()
   address: string;
-  @OneToMany(() => Attendee, (attendee) => attendee.event)
+  // Use eager with caution
+  @OneToMany(() => Attendee, (attendee) => attendee.event, { eager: true })
   attendees: Attendee[];
 }
