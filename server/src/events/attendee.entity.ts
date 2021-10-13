@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Event } from './event.entity';
+import { AttendeeAnswerEnum, Event } from './event.entity';
 
 @Entity()
 export class Attendee {
@@ -11,4 +11,9 @@ export class Attendee {
   // reference a different column in the one table
   // @JoinColumn({ name: 'event_id', referencedColumnName: 'secondary' })
   event: Event;
+  @Column('enum', {
+    enum: AttendeeAnswerEnum,
+    default: AttendeeAnswerEnum.Accepted,
+  })
+  answer: AttendeeAnswerEnum;
 }
