@@ -1,11 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/auth/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Attendee } from './attendee.entity';
-
-export enum AttendeeAnswerEnum {
-  Accepted = 1,
-  Maybe,
-  Rejected,
-}
 
 @Entity()
 export class Event {
@@ -27,6 +29,14 @@ export class Event {
     cascade: true,
   })
   attendees: Attendee[];
+
+  @JoinColumn({ name: 'organizerId' })
+  @ManyToOne(() => User, (user) => user.organized)
+  organizer: User;
+
+  @Column({ nullable: true })
+  organizerId: number;
+
   attendeeCount?: number;
   attendeeRejected?: number;
   attendeeMaybe?: number;

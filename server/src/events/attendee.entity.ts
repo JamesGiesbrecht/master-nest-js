@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { AttendeeAnswerEnum, Event } from './event.entity';
+import { AttendeeAnswerEnum } from './attendee-answer.enum';
+import { Event } from './event.entity';
 
 @Entity()
 export class Attendee {
