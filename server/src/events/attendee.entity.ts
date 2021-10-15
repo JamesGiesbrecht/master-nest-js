@@ -9,10 +9,10 @@ export class Attendee {
   @PrimaryGeneratedColumn()
   @Expose()
   id: number;
-  @Column()
-  @Expose()
-  name: string;
-  @ManyToOne(() => Event, (event) => event.attendees)
+  @ManyToOne(() => Event, (event) => event.attendees, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   // reference a different column in the one table
   // @JoinColumn({ name: 'event_id', referencedColumnName: 'secondary' })
   event: Event;
@@ -26,6 +26,7 @@ export class Attendee {
   answer: AttendeeAnswerEnum;
 
   @ManyToOne(() => User, (user) => user.attended)
+  @Expose()
   user: User;
 
   @Column()
