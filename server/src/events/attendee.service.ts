@@ -34,6 +34,7 @@ export class AttendeesService {
 
     attendee.eventId = eventId;
     attendee.userId = userId;
+    attendee.answer = input.answer;
     return await this.attendeesRepository.save(attendee);
   }
 }

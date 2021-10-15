@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Attendee } from './attendee.entity';
 import { AttendeesService } from './attendee.service';
+import { CurrentUserEventAttendanceController } from './current-user-event-attendance.controller';
 import { EventAttendeesController } from './event-attendees.controller';
 import { Event } from './event.entity';
 import { EventsOrganizedByUserController } from './events-organized-by-user.controller';
@@ -17,6 +18,7 @@ import { EventsService } from './events.service';
     EventsController,
     EventsOrganizedByUserController,
     EventAttendeesController,
+    CurrentUserEventAttendanceController,
   ],
   providers: [EventsService, AttendeesService],
 })
